@@ -1,14 +1,6 @@
-# Screen-space Reflection 
+# Screen Space Reflections 
 
-**Screen-space Reflection** is a technique for reusing screen-space data to calculate reflections. It is commonly used to create more subtle reflections such as on wet floor surfaces or in puddles. Because it fully works in screen-space it can only reflect what's currently on the screen (no backface reflection, no object living outside of the screen).
-
-**Screen-space Reflection** is an expensive technique, but when used correctly can give great results. It is only available in the [deferred rendering path](https://docs.unity3d.com/Manual/RenderTech-DeferredShading.html) as it relies on the Normals G-Buffer.
-
-The current implementation of **Screen-space reflections** in Unity is tuned for performance over quality to make it usable in production on current-gen consoles and desktop computers. Be aware that this technique isn't meant to be used to get perfectly smooth reflections, you should use probes or planar reflections of that. This effect is also great at acting as a specular occlusion effect by limiting the amount of specular light leaking.
-
-
-![](images/screenshot-ssr.png)
-
+The **Screen Space Reflection** effect creates subtle reflections that simulate wet floor surfaces or puddles. Screen Space Reflection is an ideal effect to limit the amount of [specular light](https://docs.unity3d.com/Manual/shader-NormalSpecular.html) leaking. For further information on the **Screen Space Reflection** effect see the [Screen Space Reflection](https://docs.unity3d.com/Manual/PostProcessing-ScreenSpaceReflection.html) documentation in the Unity manual.
 
 
 ![](images/ssr.png)
@@ -18,17 +10,17 @@ The current implementation of **Screen-space reflections** in Unity is tuned for
 
 | Property                | Function                                                     |
 | :----------------------- | :------------------------------------------------------------ |
-| Preset                  | Quality presets. Use `Custom` if you want to fine tune it.   |
-| Maximum Iteration Count | Maximum number of steps in the raymarching pass. Higher values mean more reflections.<br />**Note:** only available with the `Custom` preset. |
-| Thickness               | Ray thickness. Lower values are more expensive but allow the effect to detect smaller details.<br />**Note:** only available with the `Custom` preset. |
-| Resolution              | Changes the size of the internal buffer. Downsample it to maximize performances or supersample it to get slow but higher quality results.<br />**Note:** only available with the `Custom` preset. |
-| Maximum March Distance  | Maximum distance to traverse in the scene after which it will stop drawing reflections. |
-| Distance Fade           | Fades reflections close to the near plane. This is useful to hide common artifacts. |
-| Vignette                | Fades reflections close to the screen edges.                 |
+| Preset                  | Select the quality preset from the dropdown. Use `Custom` to fine tune the quality.   |
+| Maximum Iteration Count (`Custom` preset only) | Set the maximum number of steps in the raymarching pass. Higher values mean more reflections.|
+| Thickness (`Custom` preset only)| Set the value of the Ray thickness. Lower values are more resource-intensive but detect smaller details. |
+| Resolution (`Custom` preset only)| Select the size of the internal buffer. Select Downsample to maximize performance. Supersample is slower but produces higher quality results. |
+| Maximum March Distance  | Set the maximum distance to traverse in the scene after which it will stop drawing reflections. |
+| Distance Fade           | Set the value for the distance to fade reflections close to the near plane. This is useful to hide common artifacts. |
+| Vignette                | Select the value to fade reflections close to the screen edges.                 |
 
 ### Performances
 
-You should only use the `Custom` preset for beauty shots. On consoles, don't go higher than `Medium` unless you have plenty of GPU time to spare, especially when working at full-hd resolutions. On lower resolutions you can boost the quality preset and get similar timings with a higher visual quality.
+Only use the `Custom` preset for beauty shots. If you are developing for consoles, use `Medium` as the maximum, unless you have plenty of GPU time to spare. On lower resolutions you can boost the quality preset and get similar timings with a higher visual quality.
 
 ### Known issues and limitations
 
