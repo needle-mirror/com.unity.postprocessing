@@ -5,10 +5,8 @@ using UnityEngine.Assertions;
 
 namespace UnityEngine.Rendering.PostProcessing
 {
-#if UNITY_2017_2_OR_NEWER && ENABLE_VR
+#if ENABLE_VR
     using XRSettings = UnityEngine.XR.XRSettings;
-#elif UNITY_5_6_OR_NEWER && ENABLE_VR
-    using XRSettings = UnityEngine.VR.VRSettings;
 #endif
 
     /// <summary>
@@ -120,16 +118,16 @@ namespace UnityEngine.Rendering.PostProcessing
         [SerializeField]
         PostProcessResources m_Resources;
 
+        // Some juggling needed to track down reference to the resource asset when loaded from asset
+        // bundle (guid conflict)
+        PostProcessResources m_OldResources;
+
         // UI states
-#if UNITY_2017_1_OR_NEWER
         [UnityEngine.Scripting.Preserve]
-#endif
         [SerializeField]
         bool m_ShowToolkit;
 
-#if UNITY_2017_1_OR_NEWER
         [UnityEngine.Scripting.Preserve]
-#endif
         [SerializeField]
         bool m_ShowCustomSorter;
 
@@ -237,6 +235,12 @@ namespace UnityEngine.Rendering.PostProcessing
             m_CurrentContext = new PostProcessRenderContext();
         }
 
+#if UNITY_2019_1_OR_NEWER
+        bool DynamicResolutionAllowsFinalBlitToCameraTarget()
+        { 
+            return (!m_Camera.allowDynamicResolution || (ScalableBufferManager.heightScaleFactor == 1.0 && ScalableBufferManager.widthScaleFactor == 1.0));
+        }
+#endif
 
 #if UNITY_2019_1_OR_NEWER
         // We always use a CommandBuffer to blit to the final render target
@@ -244,7 +248,7 @@ namespace UnityEngine.Rendering.PostProcessing
         [ImageEffectUsesCommandBuffer]
         void OnRenderImage(RenderTexture src, RenderTexture dst)
         {
-            if (finalBlitToCameraTarget)
+            if (finalBlitToCameraTarget && DynamicResolutionAllowsFinalBlitToCameraTarget())
                 RenderTexture.active = dst; // silence warning
             else
                 Graphics.Blit(src, dst);
@@ -449,6 +453,10 @@ namespace UnityEngine.Rendering.PostProcessing
 
         static bool RequiresInitialBlit(Camera camera, PostProcessRenderContext context)
         {
+            // [ImageEffectUsesCommandBuffer] is currently broken, FIXME
+            return true;
+
+            /*
 #if UNITY_2019_1_OR_NEWER
             if (camera.allowMSAA) // this shouldn't be necessary, but until re-tested on older Unity versions just do the blits
                 return true;
@@ -459,6 +467,7 @@ namespace UnityEngine.Rendering.PostProcessing
 #else
             return true;
 #endif
+            */
         }
 
         void UpdateSrcDstForOpaqueOnly(ref int src, ref int dst, PostProcessRenderContext context, RenderTargetIdentifier cameraTarget, int opaqueOnlyEffectsRemaining)
@@ -607,7 +616,7 @@ namespace UnityEngine.Rendering.PostProcessing
             context.destination = cameraTarget;
 
 #if UNITY_2019_1_OR_NEWER
-            if (finalBlitToCameraTarget && !RuntimeUtilities.scriptableRenderPipelineActive)
+            if (finalBlitToCameraTarget && !RuntimeUtilities.scriptableRenderPipelineActive && DynamicResolutionAllowsFinalBlitToCameraTarget())
             {
                 if (m_Camera.targetTexture)
                 {
@@ -798,7 +807,13 @@ namespace UnityEngine.Rendering.PostProcessing
 
         void SetupContext(PostProcessRenderContext context)
         {
-            RuntimeUtilities.UpdateResources(m_Resources);
+            // Juggling required when a scene with post processing is loaded from an asset bundle
+            // See #1148230
+            if (m_OldResources != m_Resources)
+            {
+                RuntimeUtilities.UpdateResources(m_Resources);
+                m_OldResources = m_Resources;
+            }
 
             m_IsRenderingInSceneView = context.camera.cameraType == CameraType.SceneView;
             context.isSceneView = m_IsRenderingInSceneView;

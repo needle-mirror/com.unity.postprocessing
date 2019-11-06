@@ -111,9 +111,7 @@ namespace UnityEngine.Rendering.PostProcessing
         }
     }
 
-#if UNITY_2017_1_OR_NEWER
     [UnityEngine.Scripting.Preserve]
-#endif
     internal sealed class ScreenSpaceReflectionsRenderer : PostProcessEffectRenderer<ScreenSpaceReflections>
     {
         RenderTexture m_Resolve;
@@ -266,6 +264,7 @@ namespace UnityEngine.Rendering.PostProcessing
 
             var compute = context.resources.computeShaders.gaussianDownsample;
             int kernel = compute.FindKernel("KMain");
+            var mipFormat = RuntimeUtilities.defaultHDRRenderTextureFormat;
 
             var last = new RenderTargetIdentifier(m_Resolve);
 
@@ -274,7 +273,7 @@ namespace UnityEngine.Rendering.PostProcessing
                 size >>= 1;
                 Assert.IsTrue(size > 0);
 
-                cmd.GetTemporaryRT(m_MipIDs[i], size, size, 0, FilterMode.Bilinear, context.sourceFormat, RenderTextureReadWrite.Default, 1, true);
+                cmd.GetTemporaryRT(m_MipIDs[i], size, size, 0, FilterMode.Bilinear, mipFormat, RenderTextureReadWrite.Default, 1, true);
                 cmd.SetComputeTextureParam(compute, kernel, "_Source", last);
                 cmd.SetComputeTextureParam(compute, kernel, "_Result", m_MipIDs[i]);
                 cmd.SetComputeVectorParam(compute, "_Size", new Vector4(size, size, 1f / size, 1f / size));
