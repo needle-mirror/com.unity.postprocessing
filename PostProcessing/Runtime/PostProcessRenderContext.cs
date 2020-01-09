@@ -31,6 +31,12 @@ namespace UnityEngine.Rendering.PostProcessing
                 {
                     var xrDesc = XRSettings.eyeTextureDesc;
                     stereoRenderingMode = StereoRenderingMode.SinglePass;
+                    numberOfEyes = 1;
+
+#if UNITY_2018_3_OR_NEWER
+                    if (XRSettings.stereoRenderingMode == XRSettings.StereoRenderingMode.MultiPass)
+                        stereoRenderingMode = StereoRenderingMode.MultiPass;
+#endif
 
 #if UNITY_STANDALONE || UNITY_EDITOR
                     if (xrDesc.dimension == TextureDimension.Tex2DArray)
@@ -169,9 +175,24 @@ namespace UnityEngine.Rendering.PostProcessing
         /// </summary>
         public enum StereoRenderingMode
         {
+            /// <summary>
+            /// Multi-pass.
+            /// </summary>
             MultiPass = 0,
+
+            /// <summary>
+            /// Single-pass.
+            /// </summary>
             SinglePass,
+
+            /// <summary>
+            /// Single-pass instanced.
+            /// </summary>
             SinglePassInstanced,
+
+            /// <summary>
+            /// Single-pass multi-view.
+            /// </summary>
             SinglePassMultiview
         }
 
