@@ -419,6 +419,29 @@ namespace UnityEngine.Rendering.PostProcessing
         }
 
         /// <summary>
+        /// Sets the current render target using specified <see cref="RenderBufferLoadAction"/>.
+        /// </summary>
+        /// <param name="cmd">The command buffer to set the render target on</param>
+        /// <param name="rt">The render target to set</param>
+        /// <param name="loadAction">The load action</param>
+        /// <param name="storeAction">The store action</param>
+        /// <param name="depthLoadAction">The load action for the depth/stencil part of rt</param>
+        /// <param name="depthStoreAction">The store action for the depth/stencil part of rt</param>
+        /// <remarks>
+        /// <see cref="RenderBufferLoadAction"/> are only used on Unity 2018.2 or newer.
+        /// </remarks>
+        public static void SetRenderTargetWithLoadStoreAction(this CommandBuffer cmd, RenderTargetIdentifier rt,
+            RenderBufferLoadAction loadAction, RenderBufferStoreAction storeAction,
+            RenderBufferLoadAction depthLoadAction, RenderBufferStoreAction depthStoreAction)
+        {
+            #if UNITY_2018_2_OR_NEWER
+            cmd.SetRenderTarget(rt, loadAction, storeAction, depthLoadAction, depthStoreAction);
+            #else
+            cmd.SetRenderTarget(rt);
+            #endif
+        }
+
+        /// <summary>
         /// Sets the current render target and its depth using specified <see cref="RenderBufferLoadAction"/>.
         /// </summary>
         /// <param name="cmd">The command buffer to set the render target on</param>
@@ -447,10 +470,12 @@ namespace UnityEngine.Rendering.PostProcessing
         /// <param name="destination">The destination render target</param>
         /// <param name="clear">Should the destination target be cleared?</param>
         /// <param name="viewport">An optional viewport to consider for the blit</param>
-        public static void BlitFullscreenTriangle(this CommandBuffer cmd, RenderTargetIdentifier source, RenderTargetIdentifier destination, bool clear = false, Rect? viewport = null)
+        /// <param name="preserveDepth">Should the depth buffer be preserved?</param>
+        public static void BlitFullscreenTriangle(this CommandBuffer cmd, RenderTargetIdentifier source, RenderTargetIdentifier destination, bool clear = false, Rect? viewport = null, bool preserveDepth = false)
         {
             cmd.SetGlobalTexture(ShaderIDs.MainTex, source);
-            cmd.SetRenderTargetWithLoadStoreAction(destination, viewport == null ? LoadAction.DontCare : LoadAction.Load, StoreAction.Store);
+            var colorLoad = viewport == null ? LoadAction.DontCare : LoadAction.Load;
+            cmd.SetRenderTargetWithLoadStoreAction(destination, colorLoad, StoreAction.Store, preserveDepth ? LoadAction.Load : colorLoad, StoreAction.Store);
 
             if (viewport != null)
                 cmd.SetViewport(viewport.Value);
@@ -471,7 +496,8 @@ namespace UnityEngine.Rendering.PostProcessing
         /// <param name="pass">The pass from the material to use</param>
         /// <param name="loadAction">The load action for this blit</param>
         /// <param name="viewport">An optional viewport to consider for the blit</param>
-        public static void BlitFullscreenTriangle(this CommandBuffer cmd, RenderTargetIdentifier source, RenderTargetIdentifier destination, PropertySheet propertySheet, int pass, RenderBufferLoadAction loadAction, Rect? viewport = null)
+        /// <param name="preserveDepth">Should the depth buffer be preserved?</param>
+        public static void BlitFullscreenTriangle(this CommandBuffer cmd, RenderTargetIdentifier source, RenderTargetIdentifier destination, PropertySheet propertySheet, int pass, RenderBufferLoadAction loadAction, Rect? viewport = null, bool preserveDepth = false)
         {
             cmd.SetGlobalTexture(ShaderIDs.MainTex, source);
             #if UNITY_2018_2_OR_NEWER
@@ -481,7 +507,10 @@ namespace UnityEngine.Rendering.PostProcessing
             #else
             bool clear = false;
             #endif
-            cmd.SetRenderTargetWithLoadStoreAction(destination, viewport == null ? loadAction : LoadAction.Load, StoreAction.Store);
+            if (viewport != null)
+                loadAction = LoadAction.Load;
+
+            cmd.SetRenderTargetWithLoadStoreAction(destination, loadAction, StoreAction.Store, preserveDepth ? LoadAction.Load : loadAction, StoreAction.Store);
 
             if (viewport != null)
                 cmd.SetViewport(viewport.Value);
@@ -502,13 +531,15 @@ namespace UnityEngine.Rendering.PostProcessing
         /// <param name="pass">The pass from the material to use</param>
         /// <param name="clear">Should the destination target be cleared?</param>
         /// <param name="viewport">An optional viewport to consider for the blit</param>
-        public static void BlitFullscreenTriangle(this CommandBuffer cmd, RenderTargetIdentifier source, RenderTargetIdentifier destination, PropertySheet propertySheet, int pass, bool clear = false, Rect? viewport = null)
+        /// <param name="preserveDepth">Should the depth buffer be preserved?</param>
+        public static void BlitFullscreenTriangle(this CommandBuffer cmd, RenderTargetIdentifier source, RenderTargetIdentifier destination, PropertySheet propertySheet, int pass, bool clear = false, Rect? viewport = null, bool preserveDepth = false)
         {
             #if UNITY_2018_2_OR_NEWER
-            cmd.BlitFullscreenTriangle(source, destination, propertySheet, pass, clear ? LoadAction.Clear : LoadAction.DontCare, viewport);
+            cmd.BlitFullscreenTriangle(source, destination, propertySheet, pass, clear ? LoadAction.Clear : LoadAction.DontCare, viewport, preserveDepth);
             #else
             cmd.SetGlobalTexture(ShaderIDs.MainTex, source);
-            cmd.SetRenderTargetWithLoadStoreAction(destination, viewport == null ? LoadAction.DontCare : LoadAction.Load, StoreAction.Store);
+            var loadAction = viewport == null ? LoadAction.DontCare : LoadAction.Load;
+            cmd.SetRenderTargetWithLoadStoreAction(destination, loadAction, StoreAction.Store, preserveDepth ? LoadAction.Load : loadAction, StoreAction.Store);
 
             if (viewport != null)
                 cmd.SetViewport(viewport.Value);
@@ -729,7 +760,11 @@ namespace UnityEngine.Rendering.PostProcessing
         /// </summary>
         public static bool scriptableRenderPipelineActive
         {
-            get { return GraphicsSettings.renderPipelineAsset != null; } // 5.6+ only
+#if UNITY_2019_3_OR_NEWER
+            get { return GraphicsSettings.currentRenderPipeline != null; }
+#else
+            get { return GraphicsSettings.renderPipelineAsset != null; }
+#endif
         }
 
         /// <summary>
@@ -761,7 +796,7 @@ namespace UnityEngine.Rendering.PostProcessing
         {
             get
             {
-#if ENABLE_VR && !UNITY_2020_1_OR_NEWER
+#if (ENABLE_VR_MODULE && ENABLE_VR) && !UNITY_2020_1_OR_NEWER
                 return UnityEditorInternal.VR.VREditor.GetVREnabledOnTargetGroup(BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget))
                     && PlayerSettings.stereoRenderingPath == UnityEditor.StereoRenderingPath.SinglePass;
 #else
@@ -784,7 +819,7 @@ namespace UnityEngine.Rendering.PostProcessing
             {
 #if UNITY_EDITOR
                 return isSinglePassStereoSelected && Application.isPlaying;
-#elif !ENABLE_VR
+#elif !(ENABLE_VR_MODULE && ENABLE_VR)
                 return false;
 #else
                 return UnityEngine.XR.XRSettings.eyeTextureDesc.vrUsage == VRTextureUsage.TwoEyes;
@@ -799,9 +834,9 @@ namespace UnityEngine.Rendering.PostProcessing
         {
             get
             {
-#if ENABLE_VR && UNITY_EDITOR && !UNITY_2020_1_OR_NEWER
+#if (ENABLE_VR_MODULE && ENABLE_VR) && UNITY_EDITOR && !UNITY_2020_1_OR_NEWER
                 return UnityEditorInternal.VR.VREditor.GetVREnabledOnTargetGroup(BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget));
-#elif UNITY_XBOXONE || !ENABLE_VR
+#elif UNITY_XBOXONE || !(ENABLE_VR_MODULE && ENABLE_VR)
                 return false;
 #else
                 return UnityEngine.XR.XRSettings.enabled;
