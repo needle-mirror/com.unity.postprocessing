@@ -50,10 +50,10 @@ namespace UnityEditor.Rendering.PostProcessing
 
             if (!m_IsGlobal.boolValue) // Blend radius is not needed for global volumes
                 EditorGUILayout.PropertyField(m_BlendRadius);
-            
+
             EditorGUILayout.PropertyField(m_Weight);
             EditorGUILayout.PropertyField(m_Priority);
-            
+
             bool assetHasChanged = false;
             bool showCopy = m_Profile.objectReferenceValue != null;
             bool multiEdit = m_Profile.hasMultipleDifferentValues;
@@ -163,4 +163,4 @@ namespace UnityEditor.Rendering.PostProcessing
             get { return m_Target.HasInstantiatedProfile() ? m_Target.profile : m_Target.sharedProfile; }
         }
     }
-} 
+}

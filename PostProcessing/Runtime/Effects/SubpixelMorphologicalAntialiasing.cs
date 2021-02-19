@@ -67,7 +67,7 @@ namespace UnityEngine.Rendering.PostProcessing
 #else
             cmd.GetTemporaryRT(ShaderIDs.SMAA_Flip, context.width, context.height, 0, FilterMode.Bilinear, context.sourceFormat, RenderTextureReadWrite.Linear, 1, false);
             cmd.GetTemporaryRT(ShaderIDs.SMAA_Flop, context.width, context.height, 0, FilterMode.Bilinear, context.sourceFormat, RenderTextureReadWrite.Linear, 1, false);
-#endif            
+#endif
 
             cmd.BlitFullscreenTriangle(context.source, ShaderIDs.SMAA_Flip, sheet, (int)Pass.EdgeDetection + (int)quality, true);
             cmd.BlitFullscreenTriangle(ShaderIDs.SMAA_Flip, ShaderIDs.SMAA_Flop, sheet, (int)Pass.BlendWeights + (int)quality);
@@ -76,7 +76,7 @@ namespace UnityEngine.Rendering.PostProcessing
 
             cmd.ReleaseTemporaryRT(ShaderIDs.SMAA_Flip);
             cmd.ReleaseTemporaryRT(ShaderIDs.SMAA_Flop);
-            
+
             cmd.EndSample("SubpixelMorphologicalAntialiasing");
         }
     }

@@ -63,7 +63,7 @@ namespace UnityEngine.Rendering.PostProcessing
                         hideFlags = HideFlags.DontSave
                     };
 
-                    m_InternalSpectralLut.SetPixels(new []
+                    m_InternalSpectralLut.SetPixels(new[]
                     {
                         new Color(1f, 0f, 0f),
                         new Color(0f, 1f, 0f),
@@ -75,7 +75,7 @@ namespace UnityEngine.Rendering.PostProcessing
 
                 spectralLut = m_InternalSpectralLut;
             }
-            
+
             var sheet = context.uberSheet;
             bool fastMode = settings.fastMode || SystemInfo.graphicsDeviceType == GraphicsDeviceType.OpenGLES2;
 

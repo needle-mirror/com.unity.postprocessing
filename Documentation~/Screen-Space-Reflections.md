@@ -1,19 +1,16 @@
-# Screen Space Reflections 
+# Screen Space Reflections
 
 The **Screen Space Reflection** effect creates subtle reflections that simulate wet floor surfaces or puddles. It reflects both static and dynamic GameObjects to create realistic reflections.
 
 Screen Space Reflection replaces specular highlights on a surface, which makes it an ideal effect to limit the amount of [specular light](https://docs.unity3d.com/Manual/shader-NormalSpecular.html) leaking.
 
+![Scene with Screen Space Reflections](images\screenshot-ssr.png)
 
 
-
-![](images/ssr.png)
-
-![](C:\Users\Vic Cooper\Documents\GitHub\PostProcessing\Documentation~\images\screenshot-ssr.png)
-
-Scene with Screen Space Reflections.
 
 ### Properties
+
+![](images/ssr.png)
 
 | Property                | Function                                                     |
 | :----------------------- | :------------------------------------------------------------ |
@@ -32,6 +29,7 @@ The `Custom` preset is very resource-intensive and best for beauty shots. If you
 ### Known issues and limitations
 
 - Screen-space reflections doesn't support AR/VR.
+- [Universal Render Pipeline (URP)](https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@7.5/manual/index.html) do not support Screen Space Reflections.
 
 ### Requirements
 

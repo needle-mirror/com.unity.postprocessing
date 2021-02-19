@@ -4,7 +4,7 @@ Shader "Hidden/PostProcessing/ScalableAO"
 
         #pragma exclude_renderers psp2
         #pragma target 3.0
-  
+
     ENDHLSL
 
     SubShader

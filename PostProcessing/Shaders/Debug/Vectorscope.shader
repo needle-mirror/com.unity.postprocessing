@@ -1,7 +1,7 @@
 Shader "Hidden/PostProcessing/Debug/Vectorscope"
 {
     HLSLINCLUDE
-        
+
         #pragma exclude_renderers gles gles3 d3d11_9x
         #pragma target 4.5
         #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/StdLib.hlsl"

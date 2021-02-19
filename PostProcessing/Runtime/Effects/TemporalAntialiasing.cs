@@ -74,7 +74,7 @@ namespace UnityEngine.Rendering.PostProcessing
         const int k_NumHistoryTextures = 2;
         readonly RenderTexture[][] m_HistoryTextures = new RenderTexture[k_NumEyes][];
 
-        readonly int[] m_HistoryPingPong = new int [k_NumEyes];
+        readonly int[] m_HistoryPingPong = new int[k_NumEyes];
 
         /// <summary>
         /// Returns <c>true</c> if the effect is currently enabled and supported.
@@ -105,9 +105,9 @@ namespace UnityEngine.Rendering.PostProcessing
             // The variance between 0 and the actual halton sequence values reveals noticeable instability
             // in Unity's shadow maps, so we avoid index 0.
             var offset = new Vector2(
-                    HaltonSeq.Get((sampleIndex & 1023) + 1, 2) - 0.5f,
-                    HaltonSeq.Get((sampleIndex & 1023) + 1, 3) - 0.5f
-                );
+                HaltonSeq.Get((sampleIndex & 1023) + 1, 2) - 0.5f,
+                HaltonSeq.Get((sampleIndex & 1023) + 1, 3) - 0.5f
+            );
 
             if (++sampleIndex >= k_SampleCount)
                 sampleIndex = 0;
@@ -172,7 +172,7 @@ namespace UnityEngine.Rendering.PostProcessing
                 var originalProj = context.camera.GetStereoNonJitteredProjectionMatrix(eye);
 
                 // Currently no support for custom jitter func, as VR devices would need to provide
-                // original projection matrix as input along with jitter 
+                // original projection matrix as input along with jitter
                 var jitteredMatrix = RuntimeUtilities.GenerateJitteredProjectionMatrixFromOriginal(context, originalProj, jitter);
                 context.camera.SetStereoProjectionMatrix(eye, jitteredMatrix);
             }
@@ -268,7 +268,7 @@ namespace UnityEngine.Rendering.PostProcessing
                 {
                     if (m_HistoryTextures[i] == null)
                         continue;
-                    
+
                     for (int j = 0; j < m_HistoryTextures[i].Length; j++)
                     {
                         RenderTexture.ReleaseTemporary(m_HistoryTextures[i][j]);
@@ -282,7 +282,7 @@ namespace UnityEngine.Rendering.PostProcessing
             sampleIndex = 0;
             m_HistoryPingPong[0] = 0;
             m_HistoryPingPong[1] = 0;
-            
+
             ResetHistory();
         }
     }

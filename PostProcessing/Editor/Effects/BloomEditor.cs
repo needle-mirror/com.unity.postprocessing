@@ -57,7 +57,7 @@ namespace UnityEditor.Rendering.PostProcessing
             if (RuntimeUtilities.isVREnabled)
             {
                 if ((m_DirtIntensity.overrideState.boolValue && m_DirtIntensity.value.floatValue > 0f)
-                 || (m_DirtTexture.overrideState.boolValue && m_DirtTexture.value.objectReferenceValue != null))
+                    || (m_DirtTexture.overrideState.boolValue && m_DirtTexture.value.objectReferenceValue != null))
                     EditorGUILayout.HelpBox("Using a dirt texture in VR is not recommended.", MessageType.Warning);
             }
         }

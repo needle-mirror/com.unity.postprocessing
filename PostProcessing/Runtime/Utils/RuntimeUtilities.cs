@@ -244,9 +244,9 @@ namespace UnityEngine.Rendering.PostProcessing
                 {
                     new Vector3(-1f, -1f, 0f),
                     new Vector3(-1f,  3f, 0f),
-                    new Vector3( 3f, -1f, 0f)
+                    new Vector3(3f, -1f, 0f)
                 });
-                s_FullscreenTriangle.SetIndices(new [] { 0, 1, 2 }, MeshTopology.Triangles, 0, false);
+                s_FullscreenTriangle.SetIndices(new[] { 0, 1, 2 }, MeshTopology.Triangles, 0, false);
                 s_FullscreenTriangle.UploadMeshData(false);
 
                 return s_FullscreenTriangle;
@@ -502,7 +502,7 @@ namespace UnityEngine.Rendering.PostProcessing
             cmd.SetGlobalTexture(ShaderIDs.MainTex, source);
             #if UNITY_2018_2_OR_NEWER
             bool clear = (loadAction == LoadAction.Clear);
-            if(clear)
+            if (clear)
                 loadAction = LoadAction.DontCare;
             #else
             bool clear = false;
@@ -882,9 +882,9 @@ namespace UnityEngine.Rendering.PostProcessing
         public static bool isFloatingPointFormat(RenderTextureFormat format)
         {
             return format == RenderTextureFormat.DefaultHDR || format == RenderTextureFormat.ARGBHalf || format == RenderTextureFormat.ARGBFloat ||
-                   format == RenderTextureFormat.RGFloat || format == RenderTextureFormat.RGHalf ||
-                   format == RenderTextureFormat.RFloat || format == RenderTextureFormat.RHalf ||
-                   format == RenderTextureFormat.RGB111110Float;
+                format == RenderTextureFormat.RGFloat || format == RenderTextureFormat.RGHalf ||
+                format == RenderTextureFormat.RFloat || format == RenderTextureFormat.RHalf ||
+                format == RenderTextureFormat.RGB111110Float;
         }
 
         /// <summary>
@@ -1109,7 +1109,7 @@ namespace UnityEngine.Rendering.PostProcessing
             float horizFov = Math.Abs(planes.left) + Math.Abs(planes.right);
 
             var planeJitter = new Vector2(jitter.x * horizFov / context.screenWidth,
-                                          jitter.y * vertFov / context.screenHeight);
+                jitter.y * vertFov / context.screenHeight);
 
             planes.left += planeJitter.x;
             planes.right += planeJitter.x;
@@ -1149,7 +1149,7 @@ namespace UnityEngine.Rendering.PostProcessing
                         {
                             innerTypes = t.GetTypes();
                         }
-                        catch { }
+                        catch {}
                         return innerTypes;
                     });
             }

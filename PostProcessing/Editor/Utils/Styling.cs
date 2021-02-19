@@ -90,7 +90,7 @@ namespace UnityEditor.Rendering.PostProcessing
 
             splitterDark = new Color(0.12f, 0.12f, 0.12f, 1.333f);
             splitterLight = new Color(0.6f, 0.6f, 0.6f, 1.333f);
-            
+
             headerBackgroundDark = new Color(0.1f, 0.1f, 0.1f, 0.2f);
             headerBackgroundLight = new Color(1f, 1f, 1f, 0.2f);
 
@@ -111,4 +111,4 @@ namespace UnityEditor.Rendering.PostProcessing
             preLabel = new GUIStyle("ShurikenLabel");
         }
     }
-} 
+}

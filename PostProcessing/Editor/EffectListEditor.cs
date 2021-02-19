@@ -48,7 +48,7 @@ namespace UnityEditor.Rendering.PostProcessing
         {
             Assert.IsNotNull(asset);
             Assert.IsNotNull(serializedObject);
-            
+
             this.asset = asset;
             m_SerializedObject = serializedObject;
             m_SettingsProperty = serializedObject.FindProperty("settings");
@@ -59,10 +59,10 @@ namespace UnityEditor.Rendering.PostProcessing
 
             // Gets the list of all available postfx editors
             var editorTypes = RuntimeUtilities.GetAllTypesDerivedFrom<PostProcessEffectBaseEditor>()
-                                .Where(
-                                    t => t.IsDefined(typeof(PostProcessEditorAttribute), false)
-                                      && !t.IsAbstract
-                                );
+                .Where(
+                    t => t.IsDefined(typeof(PostProcessEditorAttribute), false)
+                    && !t.IsAbstract
+                );
 
             // Map them to their corresponding settings type
             foreach (var editorType in editorTypes)
@@ -180,7 +180,7 @@ namespace UnityEditor.Rendering.PostProcessing
                         editor.target,
                         () => ResetEffectOverride(editor.target.GetType(), id),
                         () => RemoveEffectOverride(id)
-                        );
+                    );
 
                     if (displayContent)
                     {
@@ -280,7 +280,7 @@ namespace UnityEditor.Rendering.PostProcessing
 
             if (id < m_Editors.Count)
                 m_Editors[id].baseProperty.isExpanded = nextFoldoutState;
-            
+
             m_SerializedObject.ApplyModifiedProperties();
 
             // Destroy the setting object after ApplyModifiedProperties(). If we do it before, redo
@@ -327,7 +327,7 @@ namespace UnityEditor.Rendering.PostProcessing
             // Same as RemoveEffectOverride, destroy at the end so it's recreated first on Undo to
             // make sure the GUID exists before undoing the list state
             Undo.DestroyObjectImmediate(prevSettings);
-            
+
             // Force save / refresh
             EditorUtility.SetDirty(asset);
             AssetDatabase.SaveAssets();

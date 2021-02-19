@@ -81,7 +81,7 @@ namespace UnityEditor.Rendering.PostProcessing
             if (m_PostProcessLayer.objectReferenceValue != null)
             {
                 m_LayerObject.Update();
-                
+
                 // Overlays
                 EditorGUILayout.Space();
                 EditorGUILayout.LabelField(EditorUtilities.GetContent("Overlay"), EditorStyles.boldLabel);

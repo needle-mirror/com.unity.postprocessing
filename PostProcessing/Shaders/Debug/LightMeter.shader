@@ -11,7 +11,7 @@ Shader "Hidden/PostProcessing/Debug/LightMeter"
 
         float4 _Params; // x: lowPercent, y: highPercent, z: minBrightness, w: maxBrightness
         float4 _ScaleOffsetRes; // x: scale, y: offset, w: histogram pass width, h: histogram pass height
-        
+
         TEXTURE3D_SAMPLER3D(_Lut3D, sampler_Lut3D);
 
         StructuredBuffer<uint> _HistogramBuffer;

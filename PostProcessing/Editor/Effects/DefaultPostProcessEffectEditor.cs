@@ -13,7 +13,7 @@ namespace UnityEditor.Rendering.PostProcessing
     public class DefaultPostProcessEffectEditor : PostProcessEffectBaseEditor
     {
         List<SerializedParameterOverride> m_Parameters;
-        
+
         /// <summary>
         /// Called when the editor is initialized.
         /// </summary>

@@ -25,7 +25,7 @@ Shader "Hidden/PostProcessing/Lut2DBaker"
         float3 _Gain;
 
         TEXTURE2D_SAMPLER2D(_Curves, sampler_Curves);
-        
+
         float4 _CustomToneCurve;
         float4 _ToeSegmentA;
         float4 _ToeSegmentB;

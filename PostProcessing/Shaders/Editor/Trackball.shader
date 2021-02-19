@@ -1,4 +1,4 @@
-﻿Shader "Hidden/PostProcessing/Editor/Trackball"
+Shader "Hidden/PostProcessing/Editor/Trackball"
 {
     CGINCLUDE
 

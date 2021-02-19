@@ -120,7 +120,7 @@ namespace UnityEngine.Rendering.PostProcessing
             m_SampleIndex = 0;
         }
     }
-    
+
 #if POSTFX_DEBUG_STATIC_GRAIN
     #pragma warning restore 414
 #endif

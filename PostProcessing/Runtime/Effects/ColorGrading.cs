@@ -24,7 +24,7 @@ namespace UnityEngine.Rendering.PostProcessing
         HighDefinitionRange,
 
         /// <summary>
-        /// This mode allows you to provide a custom 3D LUT authored in an external software. 
+        /// This mode allows you to provide a custom 3D LUT authored in an external software.
         /// </summary>
         External
     }
@@ -64,7 +64,7 @@ namespace UnityEngine.Rendering.PostProcessing
     /// A volume parameter holding a <see cref="GradingMode"/> value.
     /// </summary>
     [Serializable]
-    public sealed class GradingModeParameter : ParameterOverride<GradingMode> { }
+    public sealed class GradingModeParameter : ParameterOverride<GradingMode> {}
 
     /// <summary>
     /// A volume parameter holding a <see cref="Tonemapper"/> value.

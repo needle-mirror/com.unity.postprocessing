@@ -1,7 +1,7 @@
 Shader "Hidden/PostProcessing/Bloom"
 {
     HLSLINCLUDE
-        
+
         #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/StdLib.hlsl"
         #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/Colors.hlsl"
         #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/Sampling.hlsl"

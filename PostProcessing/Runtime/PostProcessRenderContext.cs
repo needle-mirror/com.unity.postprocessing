@@ -55,7 +55,6 @@ namespace UnityEngine.Rendering.PostProcessing
                     screenWidth = XRSettings.eyeTextureWidth;
                     screenHeight = XRSettings.eyeTextureHeight;
                     stereoActive = true;
-
                 }
                 else
 #endif
@@ -307,7 +306,7 @@ namespace UnityEngine.Rendering.PostProcessing
         internal RenderTextureDescriptor GetDescriptor(int depthBufferBits = 0, RenderTextureFormat colorFormat = RenderTextureFormat.Default, RenderTextureReadWrite readWrite = RenderTextureReadWrite.Default)
         {
             var modifiedDesc = new RenderTextureDescriptor(m_sourceDescriptor.width, m_sourceDescriptor.height,
-                                                                                m_sourceDescriptor.colorFormat, depthBufferBits);
+                m_sourceDescriptor.colorFormat, depthBufferBits);
             modifiedDesc.dimension = m_sourceDescriptor.dimension;
             modifiedDesc.volumeDepth = m_sourceDescriptor.volumeDepth;
             modifiedDesc.vrUsage = m_sourceDescriptor.vrUsage;
@@ -319,8 +318,8 @@ namespace UnityEngine.Rendering.PostProcessing
             modifiedDesc.enableRandomWrite = m_sourceDescriptor.enableRandomWrite;
             modifiedDesc.shadowSamplingMode = m_sourceDescriptor.shadowSamplingMode;
 
-#if UNITY_2019_1_OR_NEWER     
-            if (m_Camera.allowDynamicResolution)           
+#if UNITY_2019_1_OR_NEWER
+            if (m_Camera.allowDynamicResolution)
                 modifiedDesc.useDynamicScale = true;
 #endif
 
@@ -353,8 +352,8 @@ namespace UnityEngine.Rendering.PostProcessing
         /// <param name="widthOverride">Override the display width; use <c>0</c> to disable the override</param>
         /// <param name="heightOverride">Override the display height; use <c>0</c> to disable the override</param>
         public void GetScreenSpaceTemporaryRT(CommandBuffer cmd, int nameID,
-                                            int depthBufferBits = 0, RenderTextureFormat colorFormat = RenderTextureFormat.Default, RenderTextureReadWrite readWrite = RenderTextureReadWrite.Default,
-                                            FilterMode filter = FilterMode.Bilinear, int widthOverride = 0, int heightOverride = 0)
+            int depthBufferBits = 0, RenderTextureFormat colorFormat = RenderTextureFormat.Default, RenderTextureReadWrite readWrite = RenderTextureReadWrite.Default,
+            FilterMode filter = FilterMode.Bilinear, int widthOverride = 0, int heightOverride = 0)
         {
             var desc = GetDescriptor(depthBufferBits, colorFormat, readWrite);
             if (widthOverride > 0)
@@ -364,8 +363,8 @@ namespace UnityEngine.Rendering.PostProcessing
 
             //intermediates in VR are unchanged
             if (stereoActive && desc.dimension == Rendering.TextureDimension.Tex2DArray)
-               desc.dimension = Rendering.TextureDimension.Tex2D;
-            
+                desc.dimension = Rendering.TextureDimension.Tex2D;
+
 #if UNITY_2019_1_OR_NEWER
             cmd.GetTemporaryRT(nameID, desc, filter);
 #elif UNITY_2017_3_OR_NEWER
@@ -385,7 +384,7 @@ namespace UnityEngine.Rendering.PostProcessing
         /// <param name="heightOverride">Override the display height; use <c>0</c> to disable the override</param>
         /// <returns>A temporary render target</returns>
         public RenderTexture GetScreenSpaceTemporaryRT(int depthBufferBits = 0, RenderTextureFormat colorFormat = RenderTextureFormat.Default,
-                                                        RenderTextureReadWrite readWrite = RenderTextureReadWrite.Default, int widthOverride = 0, int heightOverride = 0)
+            RenderTextureReadWrite readWrite = RenderTextureReadWrite.Default, int widthOverride = 0, int heightOverride = 0)
         {
             var desc = GetDescriptor(depthBufferBits, colorFormat, readWrite);
             if (widthOverride > 0)

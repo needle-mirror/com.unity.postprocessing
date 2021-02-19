@@ -281,6 +281,7 @@ namespace UnityEngine.Rendering.PostProcessing
             if (changeHandler != null)
                 changeHandler();
         }
+
 #endif
     }
 }

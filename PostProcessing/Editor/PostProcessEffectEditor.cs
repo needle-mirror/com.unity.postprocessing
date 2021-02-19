@@ -25,12 +25,12 @@ namespace UnityEditor.Rendering.PostProcessing
         /// {
         ///     public float myParameter = 1f;
         /// }
-        /// 
+        ///
         /// [PostProcessEditor(typeof(MyEffect))]
         /// public class MyEffectEditor : PostProcessEffectEditor&lt;MyEffect&gt;
         /// {
         ///     SerializedProperty m_MyParameter;
-        /// 
+        ///
         ///     public override void OnEnable()
         ///     {
         ///         m_MyParameter = FindProperty(x => x.myParameter);
@@ -64,12 +64,12 @@ namespace UnityEditor.Rendering.PostProcessing
         /// {
         ///     public FloatParameter myParameter = new FloatParameter { value = 1f };
         /// }
-        /// 
+        ///
         /// [PostProcessEditor(typeof(MyEffect))]
         /// public class MyEffectEditor : PostProcessEffectEditor&lt;MyEffect&gt;
         /// {
         ///     SerializedParameterOverride m_MyParameter;
-        /// 
+        ///
         ///     public override void OnEnable()
         ///     {
         ///         m_MyParameter = FindParameterOverride(x => x.myParameter);

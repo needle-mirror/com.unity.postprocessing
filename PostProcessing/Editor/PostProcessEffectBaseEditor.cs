@@ -131,7 +131,7 @@ namespace UnityEditor.Rendering.PostProcessing
             var displayNameAttr = property.GetAttribute<DisplayNameAttribute>();
             if (displayNameAttr != null)
                 title.text = displayNameAttr.displayName;
-            
+
             // Add tooltip if it's missing and an attribute is available
             if (string.IsNullOrEmpty(title.tooltip))
             {
@@ -176,7 +176,7 @@ namespace UnityEditor.Rendering.PostProcessing
             {
                 if (decorator.OnGUI(property.value, property.overrideState, title, attribute))
                     return;
-                
+
                 // Attribute is invalid for the specified property; use default unity field instead
                 invalidProp = true;
             }

@@ -1,4 +1,4 @@
-// Small shim for VRSettings/XRSettings on XboxOne, Switch and PS Vita
+// Small shim
 #if ((UNITY_XBOXONE || UNITY_SWITCH || UNITY_PSP2) && !UNITY_2018_3_OR_NEWER)  && !UNITY_EDITOR
 using System;
 
@@ -20,8 +20,8 @@ namespace UnityEngine.XR
         public static bool useOcclusionMesh { get; set; }
         public static string loadedDeviceName { get; private set; }
         public static string[] supportedDevices { get; private set; }
-        public static void LoadDeviceByName(string deviceName) { }
-        public static void LoadDeviceByName(string[] prioritizedDeviceNameList) { }
+        public static void LoadDeviceByName(string deviceName) {}
+        public static void LoadDeviceByName(string[] prioritizedDeviceNameList) {}
     }
 }
 #endif

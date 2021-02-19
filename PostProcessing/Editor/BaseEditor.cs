@@ -16,17 +16,17 @@ namespace UnityEditor.Rendering.PostProcessing
     /// {
     ///     public float myProperty = 1.0f;
     /// }
-    /// 
+    ///
     /// [CustomEditor(typeof(MyMonoBehaviour))]
     /// public sealed class MyMonoBehaviourEditor : BaseEditor&lt;MyMonoBehaviour&gt;
     /// {
     ///     SerializedProperty m_MyProperty;
-    /// 
+    ///
     ///     void OnEnable()
     ///     {
     ///         m_MyProperty = FindProperty(x => x.myProperty);
     ///     }
-    /// 
+    ///
     ///     public override void OnInspectorGUI()
     ///     {
     ///         EditorGUILayout.PropertyField(m_MyProperty);
@@ -46,7 +46,7 @@ namespace UnityEditor.Rendering.PostProcessing
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="TValue"></typeparam>
         /// <param name="expr"></param>

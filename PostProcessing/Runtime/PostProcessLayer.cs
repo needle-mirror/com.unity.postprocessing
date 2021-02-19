@@ -256,9 +256,10 @@ namespace UnityEngine.Rendering.PostProcessing
 
 #if UNITY_2019_1_OR_NEWER
         bool DynamicResolutionAllowsFinalBlitToCameraTarget()
-        { 
+        {
             return (!m_Camera.allowDynamicResolution || (ScalableBufferManager.heightScaleFactor == 1.0 && ScalableBufferManager.widthScaleFactor == 1.0));
         }
+
 #endif
 
 #if UNITY_2019_1_OR_NEWER
@@ -272,6 +273,7 @@ namespace UnityEngine.Rendering.PostProcessing
             else
                 Graphics.Blit(src, dst);
         }
+
 #endif
 
         /// <summary>
@@ -335,8 +337,8 @@ namespace UnityEngine.Rendering.PostProcessing
         {
             // First get all effects associated with the injection point
             var effects = m_Bundles.Where(kvp => kvp.Value.attribute.eventType == evt && !kvp.Value.attribute.builtinEffect)
-                                   .Select(kvp => kvp.Value)
-                                   .ToList();
+                .Select(kvp => kvp.Value)
+                .ToList();
 
             // Remove types that don't exist anymore
             sortedList.RemoveAll(x =>
@@ -424,13 +426,13 @@ namespace UnityEngine.Rendering.PostProcessing
             // It should actually check for having tiled architecture but this is not exposed to script,
             // so we are checking for mobile as a good substitute
 #if UNITY_2019_3_OR_NEWER
-            if(SystemInfo.usesLoadStoreActions)
+            if (SystemInfo.usesLoadStoreActions)
 #else
-            if(Application.isMobilePlatform)
+            if (Application.isMobilePlatform)
 #endif
             {
                 Rect r = m_Camera.rect;
-                if(Mathf.Abs(r.x) > 1e-6f || Mathf.Abs(r.y) > 1e-6f || Mathf.Abs(1.0f - r.width) > 1e-6f || Mathf.Abs(1.0f - r.height) > 1e-6f)
+                if (Mathf.Abs(r.x) > 1e-6f || Mathf.Abs(r.y) > 1e-6f || Mathf.Abs(1.0f - r.width) > 1e-6f || Mathf.Abs(1.0f - r.height) > 1e-6f)
                 {
                     Debug.LogWarning("When used with builtin render pipeline, Postprocessing package expects to be used on a fullscreen Camera.\nPlease note that using Camera viewport may result in visual artefacts or some things not working.", m_Camera);
                 }
@@ -440,11 +442,13 @@ namespace UnityEngine.Rendering.PostProcessing
             // We also need to force reset the non-jittered projection matrix here as it's not done
             // when ResetProjectionMatrix() is called and will break transparent rendering if TAA
             // is switched off and the FOV or any other camera property changes.
-
+            if (m_CurrentContext.IsTemporalAntialiasingActive())
+            {
 #if UNITY_2018_2_OR_NEWER
-            if (!m_Camera.usePhysicalProperties)
+                if (!m_Camera.usePhysicalProperties)
 #endif
                 m_Camera.ResetProjectionMatrix();
+            }
             m_Camera.nonJitteredProjectionMatrix = m_Camera.projectionMatrix;
 
 #if (ENABLE_VR_MODULE && ENABLE_VR)
@@ -631,7 +635,7 @@ namespace UnityEngine.Rendering.PostProcessing
 #if UNITY_2019_1_OR_NEWER && ENABLE_VR_MODULE && ENABLE_VR
                 var xrDesc = XRSettings.eyeTextureDesc;
                 if (context.stereoActive && context.stereoRenderingMode == PostProcessRenderContext.StereoRenderingMode.SinglePass)
-                   width = xrDesc.width;
+                    width = xrDesc.width;
 #endif
                 tempRt = m_TargetPool.Get();
                 context.GetScreenSpaceTemporaryRT(m_LegacyCmdBuffer, tempRt, 0, sourceFormat, RenderTextureReadWrite.sRGB, FilterMode.Bilinear, width);
@@ -685,7 +689,7 @@ namespace UnityEngine.Rendering.PostProcessing
                     m_Camera.usePhysicalProperties = true;
                 else
 #endif
-                    m_Camera.ResetProjectionMatrix();
+                m_Camera.ResetProjectionMatrix();
 
                 if (m_CurrentContext.stereoActive)
                 {
@@ -728,7 +732,7 @@ namespace UnityEngine.Rendering.PostProcessing
             return GetBundle<T>().CastSettings<T>();
         }
 
-		/// <summary>
+        /// <summary>
         /// Utility method to bake a multi-scale volumetric obscurance map for the current camera.
         /// This will only work if ambient occlusion is active in the scene.
         /// </summary>
@@ -1193,7 +1197,7 @@ namespace UnityEngine.Rendering.PostProcessing
                 context.destination = tempTarget;
 
                 // Handle FXAA's keep alpha mode
-                if (antialiasingMode == Antialiasing.FastApproximateAntialiasing && !fastApproximateAntialiasing.keepAlpha)
+                if (antialiasingMode == Antialiasing.FastApproximateAntialiasing && !fastApproximateAntialiasing.keepAlpha && HasAlpha(context.sourceFormat))
                     uberSheet.properties.SetFloat(ShaderIDs.LumaInAlpha, 1f);
             }
 
@@ -1305,8 +1309,13 @@ namespace UnityEngine.Rendering.PostProcessing
                         : "FXAA"
                     );
 
-                    if (fastApproximateAntialiasing.keepAlpha)
-                        uberSheet.EnableKeyword("FXAA_KEEP_ALPHA");
+                    if (HasAlpha(context.sourceFormat))
+                    {
+                        if (fastApproximateAntialiasing.keepAlpha)
+                            uberSheet.EnableKeyword("FXAA_KEEP_ALPHA");
+                    }
+                    else
+                        uberSheet.EnableKeyword("FXAA_NO_ALPHA");
                 }
                 else if (antialiasingMode == Antialiasing.SubpixelMorphologicalAntialiasing && subpixelMorphologicalAntialiasing.IsSupported())
                 {
@@ -1380,6 +1389,22 @@ namespace UnityEngine.Rendering.PostProcessing
             bool autoExpo = GetBundle<AutoExposure>().settings.IsEnabledAndSupported(context);
             bool lightMeter = debugLayer.lightMeter.IsRequestedAndSupported(context);
             return autoExpo || lightMeter;
+        }
+
+        static bool HasAlpha(RenderTextureFormat format)
+        {
+            return
+                format == RenderTextureFormat.ARGB32
+                || format == RenderTextureFormat.ARGBHalf
+                || format == RenderTextureFormat.ARGB4444
+                || format == RenderTextureFormat.ARGB1555
+                || format == RenderTextureFormat.ARGB2101010
+                || format == RenderTextureFormat.ARGB64
+                || format == RenderTextureFormat.ARGBFloat
+                || format == RenderTextureFormat.ARGBInt
+                || format == RenderTextureFormat.BGRA32
+                || format == RenderTextureFormat.RGBAUShort
+                || format == RenderTextureFormat.BGRA10101010_XR;
         }
     }
 }

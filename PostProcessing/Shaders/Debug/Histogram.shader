@@ -51,7 +51,7 @@ Shader "Hidden/PostProcessing/Debug/Histogram"
         #else
             o.maxValue = _Params.y / FindMaxHistogramValue();
         #endif
-        
+
             return o;
         }
 

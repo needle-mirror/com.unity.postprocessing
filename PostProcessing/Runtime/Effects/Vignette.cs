@@ -94,7 +94,7 @@ namespace UnityEngine.Rendering.PostProcessing
         {
             return enabled.value
                 && ((mode.value == VignetteMode.Classic && intensity.value > 0f)
-                ||  (mode.value == VignetteMode.Masked && opacity.value > 0f && mask.value != null));
+                    ||  (mode.value == VignetteMode.Masked && opacity.value > 0f && mask.value != null));
         }
     }
 

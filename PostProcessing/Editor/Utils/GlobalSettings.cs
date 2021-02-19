@@ -57,12 +57,14 @@ namespace UnityEditor.Rendering.PostProcessing
                 guiHandler = searchContext => OpenGUI()
             };
         }
+
         #else
         [PreferenceItem("Post-processing")]
         static void PreferenceGUI()
         {
             OpenGUI();
         }
+
         #endif
 
         static void OpenGUI()

@@ -13,10 +13,10 @@ Shader "Hidden/PostProcessing/Uber"
         // the following keywords are handled in API specific SubShaders below
         // #pragma multi_compile __ COLOR_GRADING_LDR_2D COLOR_GRADING_HDR_2D COLOR_GRADING_HDR_3D
         // #pragma multi_compile __ STEREO_INSTANCING_ENABLED STEREO_DOUBLEWIDE_TARGET
-        
+
         #pragma vertex VertUVTransform
         #pragma fragment FragUber
-    
+
         #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/StdLib.hlsl"
         #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/Colors.hlsl"
         #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/Sampling.hlsl"
@@ -297,7 +297,7 @@ Shader "Hidden/PostProcessing/Uber"
             ENDHLSL
         }
     }
-    
+
     SubShader
     {
         Cull Off ZWrite Off ZTest Always

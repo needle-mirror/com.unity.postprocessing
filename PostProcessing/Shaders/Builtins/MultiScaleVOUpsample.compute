@@ -28,7 +28,7 @@
 #pragma kernel MultiScaleVOUpSample_blendout                MAIN=MultiScaleVOUpSample_blendout                  BLEND_WITH_HIGHER_RESOLUTION
 #pragma kernel MultiScaleVOUpSample_premin_blendout         MAIN=MultiScaleVOUpSample_premin_blendout           COMBINE_LOWER_RESOLUTIONS BLEND_WITH_HIGHER_RESOLUTION
 
-#pragma kernel MultiScaleVOUpSample_MSAA                    MAIN=MultiScaleVOUpSample_MSAA                      
+#pragma kernel MultiScaleVOUpSample_MSAA                    MAIN=MultiScaleVOUpSample_MSAA
 #pragma kernel MultiScaleVOUpSample_MSAA_invert             MAIN=MultiScaleVOUpSample_MSAA_invert               MSAA INVERT
 #pragma kernel MultiScaleVOUpSample_MSAA_premin             MAIN=MultiScaleVOUpSample_MSAA_premin               MSAA COMBINE_LOWER_RESOLUTIONS
 #pragma kernel MultiScaleVOUpSample_MSAA_blendout           MAIN=MultiScaleVOUpSample_MSAA_blendout             MSAA BLEND_WITH_HIGHER_RESOLUTION
@@ -146,7 +146,7 @@ bool CompareDeltas(float d1, float d2, float l1, float l2)
 
 void BlurHorizontally(uint leftMostIndex)
 {
-#ifdef MSAA 
+#ifdef MSAA
     float2 a0 = AOCache1[leftMostIndex];
     float2 a1 = AOCache1[leftMostIndex + 1];
     float2 a2 = AOCache1[leftMostIndex + 2];
@@ -350,14 +350,14 @@ void MAIN(uint3 Gid : SV_GroupID, uint GI : SV_GroupIndex, uint3 GTid : SV_Group
     // Goal:  End up with a 9x9 patch that is blurred so we can upsample.  Blur radius is 2 pixels, so start with 13x13 area.
 
     //
-    // Horizontally blur the pixels.	13x13 -> 9x13
+    // Horizontally blur the pixels.    13x13 -> 9x13
     //
     if (GI < 39)
         BlurHorizontally((GI / 3) * 16 + (GI % 3) * 3);
     GroupMemoryBarrierWithGroupSync();
 
     //
-    // Vertically blur the pixels.		9x13 -> 9x9
+    // Vertically blur the pixels.      9x13 -> 9x9
     //
     if (GI < 45)
         BlurVertically((GI / 9) * 32 + GI % 9);

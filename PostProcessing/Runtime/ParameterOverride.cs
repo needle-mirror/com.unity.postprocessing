@@ -28,7 +28,7 @@ namespace UnityEngine.Rendering.PostProcessing
         /// <returns>The value stored in this parameter</returns>
         public T GetValue<T>()
         {
-            return ((ParameterOverride<T>)this).value;
+            return ((ParameterOverride<T>) this).value;
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace UnityEngine.Rendering.PostProcessing
         protected internal virtual void OnEnable()
         {
         }
-        
+
         /// <summary>
         /// This method is called right before the parent <see cref="PostProcessEffectSettings"/>
         /// gets de-initialized.
@@ -485,7 +485,7 @@ namespace UnityEngine.Rendering.PostProcessing
                 base.Interp(from, to, t);
                 return;
             }
-            
+
             int frameCount = Time.renderedFrameCount;
             from.Cache(frameCount);
             to.Cache(frameCount);
@@ -575,13 +575,13 @@ namespace UnityEngine.Rendering.PostProcessing
                 {
                     int size = from != null ? from.height : to.height;
                     Texture defaultTexture = RuntimeUtilities.GetLutStrip(size);
-                    
+
                     if (from == null) from = defaultTexture;
                     if (to == null) to = defaultTexture;
                 }
 
                 Color tgtColor;
-                                
+
                 switch (defaultState)
                 {
                     case TextureParameterDefault.Black:

@@ -85,7 +85,7 @@ namespace UnityEngine.Rendering.PostProcessing
                 prop.overrideState = state;
             }
         }
-        
+
         /// <summary>
         /// Returns <c>true</c> if the effect is currently enabled and supported.
         /// </summary>

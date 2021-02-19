@@ -164,4 +164,3 @@ namespace UnityEngine.Rendering.PostProcessing
         }
     }
 }
-

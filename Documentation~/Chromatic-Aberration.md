@@ -4,11 +4,11 @@ The **Chromatic Aberration** effect splits color along boundaries in an image in
 
 Unity provides support for red/blue and green/purple fringing. You can define fringing colors by using an input texture.
 
-![PostProcessing-ChromaticAberration-1](images\PostProcessing-ChromaticAberration-1.png)
+![Scene without Chromatic Aberration](images\PostProcessing-ChromaticAberration-1.png)
 
-Scene without **Chromatic Aberration**.
 
-![PostProcessing-ChromaticAberration-0](images\PostProcessing-ChromaticAberration-0.png)
+
+![Scene with Chromatic Aberration](images\PostProcessing-ChromaticAberration-0.png)
 
 Scene with **Chromatic Aberration**.
 
@@ -31,7 +31,7 @@ Scene with **Chromatic Aberration**.
 - Green/Purple
 - Purple/Green
 
-You can create custom spectral textures in any image editing software. While the resolution size of spectral textures are not limited, small sizes like the 3x1 textures provided work best. 
+You can create custom spectral textures in any image editing software. While the resolution size of spectral textures are not limited, small sizes like the 3x1 textures provided work best.
 
 You can achieve a rougher effect by manually setting the **Filter Mode** of the input texture to **Point (no filter)** in the [Texture Import Settings](https://docs.unity3d.com/Manual/class-TextureImporter.html) window.
 

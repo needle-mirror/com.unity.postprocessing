@@ -7,7 +7,7 @@ namespace UnityEditor.Rendering.PostProcessing
     internal sealed class AutoExposureEditor : PostProcessEffectEditor<AutoExposure>
     {
         SerializedParameterOverride m_Filtering;
-        
+
         SerializedParameterOverride m_MinLuminance;
         SerializedParameterOverride m_MaxLuminance;
         SerializedParameterOverride m_KeyValue;
@@ -19,11 +19,11 @@ namespace UnityEditor.Rendering.PostProcessing
         public override void OnEnable()
         {
             m_Filtering = FindParameterOverride(x => x.filtering);
-            
+
             m_MinLuminance = FindParameterOverride(x => x.minLuminance);
             m_MaxLuminance = FindParameterOverride(x => x.maxLuminance);
             m_KeyValue = FindParameterOverride(x => x.keyValue);
-            
+
             m_EyeAdaptation = FindParameterOverride(x => x.eyeAdaptation);
             m_SpeedUp = FindParameterOverride(x => x.speedUp);
             m_SpeedDown = FindParameterOverride(x => x.speedDown);
@@ -47,7 +47,7 @@ namespace UnityEditor.Rendering.PostProcessing
             m_MaxLuminance.value.floatValue = Mathf.Max(minLum, maxLum);
 
             PropertyField(m_KeyValue);
-            
+
             EditorGUILayout.Space();
             EditorUtilities.DrawHeaderLabel("Adaptation");
 

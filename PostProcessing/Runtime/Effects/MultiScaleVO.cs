@@ -157,9 +157,9 @@ namespace UnityEngine.Rendering.PostProcessing
             m_ScaledHeights[0] = camera.scaledPixelHeight;
 #else
             m_ScaledWidths[0] = camera.pixelWidth * (RuntimeUtilities.isSinglePassStereoEnabled ? 2 : 1);
-            m_ScaledHeights[0] = camera.pixelHeight;       
+            m_ScaledHeights[0] = camera.pixelHeight;
 #endif
-            
+
             // L1 -> L6 sizes
             for (int i = 1; i < 7; i++)
             {
@@ -191,7 +191,7 @@ namespace UnityEngine.Rendering.PostProcessing
 
         void PushAllocCommands(CommandBuffer cmd, bool isMSAA)
         {
-            if(isMSAA)
+            if (isMSAA)
             {
                 Alloc(cmd, ShaderIDs.LinearDepth, MipLevel.Original, RenderTextureFormat.RGHalf, true);
 
@@ -331,16 +331,16 @@ namespace UnityEngine.Rendering.PostProcessing
             // in front are the number of samples with this weight because we sum the samples
             // together before multiplying by the weight, so as an aggregate all of those samples
             // matter more. After generating this table, the weights are normalized.
-            m_SampleWeightTable[ 0] = 4 * m_SampleThickness[ 0];    // Axial
-            m_SampleWeightTable[ 1] = 4 * m_SampleThickness[ 1];    // Axial
-            m_SampleWeightTable[ 2] = 4 * m_SampleThickness[ 2];    // Axial
-            m_SampleWeightTable[ 3] = 4 * m_SampleThickness[ 3];    // Axial
-            m_SampleWeightTable[ 4] = 4 * m_SampleThickness[ 4];    // Diagonal
-            m_SampleWeightTable[ 5] = 8 * m_SampleThickness[ 5];    // L-shaped
-            m_SampleWeightTable[ 6] = 8 * m_SampleThickness[ 6];    // L-shaped
-            m_SampleWeightTable[ 7] = 8 * m_SampleThickness[ 7];    // L-shaped
-            m_SampleWeightTable[ 8] = 4 * m_SampleThickness[ 8];    // Diagonal
-            m_SampleWeightTable[ 9] = 8 * m_SampleThickness[ 9];    // L-shaped
+            m_SampleWeightTable[0] = 4 * m_SampleThickness[0];      // Axial
+            m_SampleWeightTable[1] = 4 * m_SampleThickness[1];      // Axial
+            m_SampleWeightTable[2] = 4 * m_SampleThickness[2];      // Axial
+            m_SampleWeightTable[3] = 4 * m_SampleThickness[3];      // Axial
+            m_SampleWeightTable[4] = 4 * m_SampleThickness[4];      // Diagonal
+            m_SampleWeightTable[5] = 8 * m_SampleThickness[5];      // L-shaped
+            m_SampleWeightTable[6] = 8 * m_SampleThickness[6];      // L-shaped
+            m_SampleWeightTable[7] = 8 * m_SampleThickness[7];      // L-shaped
+            m_SampleWeightTable[8] = 4 * m_SampleThickness[8];      // Diagonal
+            m_SampleWeightTable[9] = 8 * m_SampleThickness[9];      // L-shaped
             m_SampleWeightTable[10] = 8 * m_SampleThickness[10];    // L-shaped
             m_SampleWeightTable[11] = 4 * m_SampleThickness[11];    // Diagonal
 
@@ -398,9 +398,9 @@ namespace UnityEngine.Rendering.PostProcessing
             else
             {
                 kernel = cs.FindKernel(highResAO == null ? invert
-                ? "MultiScaleVOUpSample_MSAA_invert"
-                : "MultiScaleVOUpSample_MSAA"
-                : "MultiScaleVOUpSample_MSAA_blendout");
+                    ? "MultiScaleVOUpSample_MSAA_invert"
+                    : "MultiScaleVOUpSample_MSAA"
+                    : "MultiScaleVOUpSample_MSAA_blendout");
             }
 
 
@@ -463,9 +463,9 @@ namespace UnityEngine.Rendering.PostProcessing
         void CheckAOTexture(PostProcessRenderContext context)
         {
             bool AOUpdateNeeded = m_AmbientOnlyAO == null || !m_AmbientOnlyAO.IsCreated() || m_AmbientOnlyAO.width != context.width || m_AmbientOnlyAO.height != context.height;
-#if UNITY_2017_3_OR_NEWER                
+#if UNITY_2017_3_OR_NEWER
             AOUpdateNeeded = AOUpdateNeeded || m_AmbientOnlyAO.useDynamicScale != context.camera.allowDynamicResolution;
-#endif                  
+#endif
             if (AOUpdateNeeded)
             {
                 RuntimeUtilities.Destroy(m_AmbientOnlyAO);
