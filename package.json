@@ -1,6 +1,6 @@
 {
   "name": "com.unity.postprocessing",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "displayName": "Post Processing",
   "unity": "2019.4",
   "unityRelease": "19f1",
@@ -9,11 +9,11 @@
     "com.unity.modules.physics": "1.0.0"
   },
   "upmCi": {
-    "footprint": "9ac4a561950018d0d5cb3c7f3598297e7e7f7d4c"
+    "footprint": "dd9e4eaffc53fe205b8cebd6e2f5917c76f16c83"
   },
   "repository": {
     "url": "https://github.com/Unity-Technologies/Graphics.git",
     "type": "git",
-    "revision": "b0e3273299e678bccb11e08d28c49d481c731c7e"
+    "revision": "ffa21b54c20545786dd5e691f58f41468f0c153a"
   }
 }
