@@ -859,6 +859,35 @@ namespace UnityEngine.Rendering.PostProcessing
         }
 
         /// <summary>
+        /// Returns <c>true</c> if the target platform is WebGL,
+        /// <c>false</c> otherwise.
+        /// </summary>
+        public static bool isWebNonWebGPU
+        {
+            get
+            {
+#if UNITY_EDITOR
+    #if UNITY_WEBGL
+        #if UNITY_2023_2_OR_NEWER
+                return PlayerSettings.GetGraphicsAPIs(BuildTarget.WebGL).First() != GraphicsDeviceType.WebGPU;
+        #else
+                return true;
+        #endif
+    #else
+                return false;
+    #endif
+#else
+                return Application.platform == RuntimePlatform.WebGLPlayer
+    #if UNITY_2023_2_OR_NEWER
+                    && SystemInfo.graphicsDeviceType != GraphicsDeviceType.WebGPU
+    #endif
+                    ;
+#endif
+
+            }
+        }
+
+        /// <summary>
         /// Gets the default HDR render texture format for the current target platform.
         /// </summary>
         public static RenderTextureFormat defaultHDRRenderTextureFormat
