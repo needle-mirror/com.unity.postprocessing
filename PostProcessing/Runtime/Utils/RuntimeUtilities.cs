@@ -850,8 +850,7 @@ namespace UnityEngine.Rendering.PostProcessing
         }
 
         /// <summary>
-        /// Returns <c>true</c> if the target platform is Android and the selected API is OpenGL,
-        /// <c>false</c> otherwise.
+        /// Returns <c>true</c> if the target platform is Android and the selected API is OpenGL, <c>false</c> otherwise.
         /// </summary>
         public static bool isAndroidOpenGL
         {
@@ -859,8 +858,19 @@ namespace UnityEngine.Rendering.PostProcessing
         }
 
         /// <summary>
-        /// Returns <c>true</c> if the target platform is WebGL,
-        /// <c>false</c> otherwise.
+        /// Returns <c>true</c> if the selected API is OpenGLES, <c>false</c> otherwise.
+        /// </summary>
+        public static bool isOpenGLES
+        {
+            get { return (SystemInfo.graphicsDeviceType == GraphicsDeviceType.OpenGLES3
+#if !UNITY_2023_1_OR_NEWER
+                          || SystemInfo.graphicsDeviceType == GraphicsDeviceType.OpenGLES2
+#endif
+                          ); }
+        }
+
+        /// <summary>
+        /// Returns <c>true</c> if the target platform is WebGL, <c>false</c> otherwise.
         /// </summary>
         public static bool isWebNonWebGPU
         {
