@@ -40,7 +40,7 @@ namespace UnityEditor.Rendering.PostProcessing
         /// </example>
         /// <remarks>
         /// If you're trying to retrieve a <see cref="SerializedParameterOverride"/>, you should
-        /// use <seealso cref="FindParameterOverride{TValue}"/> instead.
+        /// use <see cref="FindParameterOverride{TValue}"/> instead.
         /// </remarks>
         /// <seealso cref="SerializedProperty"/>
         /// <seealso cref="FindParameterOverride{TValue}"/>

@@ -1,3 +1,5 @@
+using System;
+
 namespace UnityEngine.Rendering.PostProcessing
 {
     /// <summary>
@@ -29,6 +31,7 @@ namespace UnityEngine.Rendering.PostProcessing
     /// <summary>
     /// The base class for all debug monitors.
     /// </summary>
+    [Serializable]
     public abstract class Monitor
     {
         /// <summary>

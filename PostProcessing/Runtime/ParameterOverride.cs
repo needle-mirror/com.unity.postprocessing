@@ -6,6 +6,7 @@ namespace UnityEngine.Rendering.PostProcessing
     /// The base abstract class for all parameter override types.
     /// </summary>
     /// <seealso cref="ParameterOverride{T}"/>
+    [Serializable]
     public abstract class ParameterOverride
     {
         /// <summary>
@@ -65,7 +66,7 @@ namespace UnityEngine.Rendering.PostProcessing
     /// own by extending this class.
     /// </remarks>
     /// <example>
-    /// This sample code shows how to make a custom parameter holding a <c>float</c>.
+    /// <para>This sample code shows how to make a custom parameter holding a <c>float</c>.</para>
     /// <code>
     /// [Serializable]
     /// public sealed class FloatParameter : ParameterOverride&lt;float&gt;
@@ -143,7 +144,7 @@ namespace UnityEngine.Rendering.PostProcessing
         /// Sets the value for this parameter to <paramref name="x"/> and mark the override state
         /// to <c>true</c>.
         /// </summary>
-        /// <param name="x"></param>
+        /// <param name="x">New value</param>
         public void Override(T x)
         {
             overrideState = true;
@@ -174,7 +175,7 @@ namespace UnityEngine.Rendering.PostProcessing
         /// Implicit conversion between <see cref="ParameterOverride{T}"/> and its value type.
         /// </summary>
         /// <param name="prop">The parameter to implicitly cast</param>
-        /// <returns>A value of type <typeparam name="T">.</typeparam></returns>
+        /// <returns>A value of given type.</returns>
         public static implicit operator T(ParameterOverride<T> prop)
         {
             return prop.value;

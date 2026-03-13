@@ -46,11 +46,12 @@ namespace UnityEditor.Rendering.PostProcessing
         }
 
         /// <summary>
-        ///
+        /// Find a serialized property using an expression instead of a string. This is safer as it
+        /// helps avoiding typos and make code refactoring easier.
         /// </summary>
-        /// <typeparam name="TValue"></typeparam>
-        /// <param name="expr"></param>
-        /// <returns></returns>
+        /// <typeparam name="TValue">The serialized value type</typeparam>
+        /// <param name="expr">The expression to parse to reach the property</param>
+        /// <returns>A <see cref="SerializedProperty"/> or <c>null</c> if none was found</returns>
         protected SerializedProperty FindProperty<TValue>(Expression<Func<T, TValue>> expr)
         {
             return serializedObject.FindProperty(RuntimeUtilities.GetFieldPath(expr));

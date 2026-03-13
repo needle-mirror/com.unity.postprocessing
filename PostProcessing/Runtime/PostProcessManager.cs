@@ -212,7 +212,7 @@ namespace UnityEngine.Rendering.PostProcessing
         /// <param name="layer">The unity layer to put the volume in</param>
         /// <param name="priority">The priority to set this volume to</param>
         /// <param name="settings">A list of effects to put in this volume</param>
-        /// <returns></returns>
+        /// <returns>A newly created GameObject called "Quick Volume" that contains a global volume.</returns>
         public PostProcessVolume QuickVolume(int layer, float priority, params PostProcessEffectSettings[] settings)
         {
             var gameObject = new GameObject()

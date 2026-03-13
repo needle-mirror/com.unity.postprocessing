@@ -157,6 +157,7 @@ namespace UnityEngine.Rendering.PostProcessing
             /// <summary>
             /// A reference to the bundle itself.
             /// </summary>
+            [NonSerialized]
             public PostProcessBundle bundle; // Not serialized, is set/reset when deserialization kicks in
         }
 
@@ -739,7 +740,7 @@ namespace UnityEngine.Rendering.PostProcessing
         /// Grabs the bundle for the given effect type.
         /// </summary>
         /// <typeparam name="T">An effect type.</typeparam>
-        /// <returns>The bundle for the effect of type <typeparam name="T"></typeparam></returns>
+        /// <returns>The bundle for the effect of the given type.</returns>
         public PostProcessBundle GetBundle<T>()
             where T : PostProcessEffectSettings
         {
@@ -750,7 +751,7 @@ namespace UnityEngine.Rendering.PostProcessing
         /// Grabs the bundle for the given effect type.
         /// </summary>
         /// <param name="settingsType">An effect type.</param>
-        /// <returns>The bundle for the effect of type <typeparam name="type"></typeparam></returns>
+        /// <returns>The bundle for the effect of the given type.</returns>
         public PostProcessBundle GetBundle(Type settingsType)
         {
             Assert.IsTrue(m_Bundles.ContainsKey(settingsType), "Invalid type");
